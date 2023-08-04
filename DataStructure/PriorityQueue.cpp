@@ -58,7 +58,7 @@ public:
         _tree.assign(size, T{});
     }
     
-    void insert(T value)
+    void push(T value)
     {
         if(_tail == _size)
         {
@@ -73,7 +73,7 @@ public:
             ++_tail;
         }
     }
-    T extract(void)
+    T pop(void)
     {
         T value = _tree[0];
         _tree[0] = _tree[--_tail];
@@ -95,9 +95,9 @@ class PriorityQueue
     void init(int size = 0);
     
     //データを挿入
-    void insert(T value);
+    void push(T value);
     //最も優先度の高いデータを取り出して返す
-    T extract(void);
+    T pop(void);
     //最も優先度の高いデータを返す
     T top(void);
     
@@ -119,7 +119,7 @@ int main(void)
     int input;
     while(true)
     {
-        cout << "command?(1:insert / 2:extract / 3:top / 4:size / 9:end program): ";
+        cout << "command?(1:push / 2:pop / 3:top / 4:size / 9:end program): ";
         do
         {
             cin >> input;
@@ -130,8 +130,8 @@ int main(void)
         case 1:
             cout << "value?(int): ";
             cin >> input;
-            pq.insert(input);
-            cout << "inserted " << input << "\n\n";
+            pq.push(input);
+            cout << "pushed " << input << "\n\n";
             break;
             
         case 2:
@@ -140,7 +140,7 @@ int main(void)
                 cout << "priority queue is empty\n\n";
                 break;
             }
-            cout << "extracted " << pq.extract() << "\n\n";
+            cout << "popped " << pq.pop() << "\n\n";
             break;
             
         case 3:
