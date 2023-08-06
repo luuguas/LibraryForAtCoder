@@ -12,7 +12,7 @@ private:
     std::vector<idxT> _prev;
     
 public:
-    explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF) : _size(size), _graph(graph), _INF(INF) {}    
+    explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF) : _size(size), _graph(graph), _INF(INF) {}
     void solve(idxT start)
     {
         _dist.assign(_size, _INF);
