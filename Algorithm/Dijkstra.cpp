@@ -1,5 +1,5 @@
 //重み付きグラフの最短経路長をダイクストラ法で解くクラス
-//idxT: グラフの添字の型 wtT: 辺の重みの型
+//idxT: グラフの頂点番号の型 wtT: 辺の重みの型
 #include <vector>
 #include <map>
 #include <queue>
