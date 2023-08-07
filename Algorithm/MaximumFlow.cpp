@@ -7,13 +7,13 @@ class MaximumFlow
 {
 private:
     idxT _size;
-    const std::vector<std::map<idxT, capT>>& _graph;
+    std::vector<std::map<idxT, capT>> _graph;
     capT _INF;
     std::vector<std::map<idxT, capT>> _rest, _flowed;
     std::vector<idxT> _visited;
     
     idxT _goal, _cnt;
-    capT _total_flow;
+    capT _flow_total;
     capT min(capT a, capT b)
     {
         if(a < b)
@@ -60,7 +60,14 @@ private:
     }
     
 public:
-    explicit MaximumFlow(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF) : _size(size), _graph(graph), _INF(INF) {}
+    explicit MaximumFlow(void) {}
+    explicit MaximumFlow(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF) {init(size, graph, INF);}
+    void init(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF)
+    {
+        _size = size;
+        _graph = graph;
+        _INF = INF;
+    }
     void solve(idxT start, idxT goal)
     {
         _rest = _graph;
@@ -74,21 +81,21 @@ public:
         }
         _visited.assign(_size, -1);
         
-        _total_flow = 0;
+        _flow_total = 0;
         _goal = goal;
         for(_cnt = 0;; ++_cnt)
         {
             capT flow = dfs(start, _INF);
             if(flow == 0)
                 break;
-            _total_flow += flow;
+            _flow_total += flow;
         }
     }
-    capT total_flow(void) {return _total_flow;}
-    capT vertex_flow(idxT idx)
+    capT flow_total(void) {return _flow_total;}
+    capT flow_vertex(idxT idx)
     {
         if(idx == _goal)
-            return _total_flow;
+            return _flow_total;
         capT flow = 0;
         for(const auto& [to, cap] : _graph[idx])
         {
@@ -96,7 +103,7 @@ public:
         }
         return flow;
     }
-    capT edge_flow(idxT from, idxT to)
+    capT flow_edge(idxT from, idxT to)
     {
         if(_graph[from].find(to) == _graph[from].end())
             return -1;
@@ -108,18 +115,21 @@ public:
 template <typename idxT, typename capT>
 class MaximumFlow
 {
+    //宣言 後にinit()で初期化
+    explicit MaximumFlow(void);
     //頂点数、最大流量を重みにもつ有向グラフ、無限大(十分大きい値)を指定して初期化
     explicit MaximumFlow(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
+    void init(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
     
     //頂点startから頂点goalに向けてフローを流したときの最大流量を求める
     void solve(idxT start, idxT goal);
     
     //!以下の関数はsolve()実行後に使用
     //頂点goalに流れ込む最大流量を返す
-    capT total_flow(void);
+    capT flow_total(void);
     //頂点goalに流れこむ流量が最大になるときの、頂点idxを流れる流量を返す
-    capT vertex_flow(idxT idx);
+    capT flow_vertex(idxT idx);
     //頂点goalに流れこむ流量が最大になるときの、頂点from-to間の辺を流れる流量を返す 辺が存在しない場合は-1を返す
-    capT edge_flow(idxT from, idxT to);
+    capT flow_edge(idxT from, idxT to);
 };
 */
