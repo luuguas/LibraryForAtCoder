@@ -1,21 +1,24 @@
 //Union-Find木
+//idxT: ノード番号の型
 #include <vector>
+template <typename idxT>
 class UnionFind
 {
 private:
-    int _group_count;
-    std::vector<int> _parent, _size;
+    idxT _group_count;
+    std::vector<idxT> _parent, _size;
     
 public:
-    explicit UnionFind(int size) {init(size);}
-    void init(int size)
+    explicit UnionFind(void) {}
+    explicit UnionFind(idxT size) {init(size);}
+    void init(idxT size)
     {
         _group_count = size;
         _parent.assign(size, -1);
         _size.assign(size, 1);
     }
 
-    int root(int node)
+    idxT root(idxT node)
     {
         if(_parent[node] == -1)
             return node;
@@ -23,9 +26,9 @@ public:
             return _parent[node] = root(_parent[node]);
     }
     
-    void unite(int node1, int node2)
+    void unite(idxT node1, idxT node2)
     {
-        int root1 = root(node1), root2 = root(node2);
+        idxT root1 = root(node1), root2 = root(node2);
         if(root1 == root2)
             return;
         
@@ -41,32 +44,34 @@ public:
         }
         --_group_count;
     }
-    bool same(int node1, int node2) {return root(node1) == root(node2);}
+    bool same(idxT node1, idxT node2) {return root(node1) == root(node2);}
     
-    int size(int node) {return _size[root(node)];}
-    int group_count(void) {return _group_count;}
+    idxT size(idxT node) {return _size[root(node)];}
+    idxT group_count(void) {return _group_count;}
 };
 
 /*
+template <typename idxT>
 class UnionFind
 {
-    //ノード数を指定して初期化
-    //各ノードを唯一の要素とするsize個の互いに素な集合を作成
-    explicit UnionFind(int size);
-    void init(int size);
+    //宣言 後にinit()で初期化
+    explicit UnionFind(void);
+    //ノード数を指定して初期化 各ノードを唯一の要素とするsize個の互いに素な集合を作成
+    explicit UnionFind(idxT size);
+    void init(idxT size);
 
     //nodeを含む集合の根を返す&経路圧縮
-    int root(int node);
+    idxT root(idxT node);
     
     //node1を含む集合とnode2を含む集合を併合する
-    void unite(int node1, int node2);
+    void unite(idxT node1, idxT node2);
     //node1とnode2が同じ集合に属しているならtrueを返す
-    bool same(int node1, int node2);
+    bool same(idxT node1, idxT node2);
     
     //nodeを含む集合の要素数を返す
-    int size(int node);
+    idxT size(idxT node);
     //集合の個数を返す
-    int group_count(void);
+    idxT group_count(void);
 };
 */
 
