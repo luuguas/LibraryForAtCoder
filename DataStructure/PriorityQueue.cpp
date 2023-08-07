@@ -1,20 +1,21 @@
 //優先度付きキュー
+//idxT: キューのサイズの型 valT: キューの値の型
 #include <vector>
-template <typename T>
+template <typename idxT, typename valT>
 class PriorityQueue
 {
 private:
-    int _size;
-    int _tail;
-    std::vector<T> _tree;
+    idxT _size;
+    idxT _tail;
+    std::vector<valT> _tree;
     
-    int parent(int index) {return (index - 1) / 2;}
-    int left(int index) {return 2 * index + 1;}
-    int right(int index) {return 2 * index + 2;}
+    idxT parent(idxT index) {return (index - 1) / 2;}
+    idxT left(idxT index) {return 2 * index + 1;}
+    idxT right(idxT index) {return 2 * index + 2;}
     
-    void up_heap(int index)
+    void up_heap(idxT index)
     {
-        T value = _tree[index];
+        valT value = _tree[index];
         while(index > 0 && _tree[parent(index)] < value)
         {
             _tree[index] = _tree[parent(index)];
@@ -22,10 +23,10 @@ private:
         }
         _tree[index] = value;
     }
-    void down_heap(int index)
+    void down_heap(idxT index)
     {
-        T value = _tree[index];
-        int larger;
+        valT value = _tree[index];
+        idxT larger;
         while(true)
         {
             if(left(index) < _tail)
@@ -50,15 +51,15 @@ private:
     }
     
 public:
-    explicit PriorityQueue(int size = 0) {init(size);}
-    void init(int size = 0)
+    explicit PriorityQueue(idxT size = 0) {init(size);}
+    void init(idxT size = 0)
     {
         _size = size;
         _tail = 0;
-        _tree.assign(size, T{});
+        _tree.assign(size, valT{});
     }
     
-    void push(T value)
+    void push(valT value)
     {
         if(_tail == _size)
         {
@@ -73,17 +74,17 @@ public:
             ++_tail;
         }
     }
-    T pop(void)
+    valT pop(void)
     {
-        T value = _tree[0];
+        valT value = _tree[0];
         _tree[0] = _tree[--_tail];
         down_heap(0);
         return value;
     }
-    T top(void) {return _tree[0];}
+    valT top(void) {return _tree[0];}
     
     bool empty(void) {return _tail == 0;}
-    int size(void) {return _tail;}
+    idxT size(void) {return _tail;}
 };
 
 /*
@@ -91,20 +92,20 @@ template <typename T>
 class PriorityQueue
 {
     //サイズを指定して初期化(不足分は適宜補充される)
-    PriorityQueue(int size = 0);
-    void init(int size = 0);
+    PriorityQueue(idxT size = 0);
+    void init(idxT size = 0);
     
     //データを挿入
-    void push(T value);
+    void push(valT value);
     //最も優先度の高いデータを取り出して返す
-    T pop(void);
+    valT pop(void);
     //最も優先度の高いデータを返す
-    T top(void);
+    valT top(void);
     
     //キューが空ならtrueを返す
     bool empty(void);
     //キューに挿入されているデータの個数を返す
-    int size(void);
+    idxT size(void);
 };
 */
 
@@ -114,7 +115,7 @@ class PriorityQueue
 using namespace std;
 int main(void)
 {
-    PriorityQueue<int> pq(10);
+    PriorityQueue<int, int> pq(10);
     
     int input;
     while(true)
