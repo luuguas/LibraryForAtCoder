@@ -8,13 +8,20 @@ class Dijkstra
 {
 private:
     idxT _size;
-    const std::vector<std::map<idxT, wtT>>& _graph;
+    std::vector<std::map<idxT, wtT>> _graph;
     wtT _INF;
     std::vector<wtT> _dist;
     std::vector<idxT> _prev;
     
 public:
-    explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF) : _size(size), _graph(graph), _INF(INF) {}
+    explicit Dijkstra(void) {}
+    explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF) {init(size, graph, INF);}
+    void init(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF)
+    {
+        _size = size;
+        _graph = graph;
+        _INF = INF;
+    }
     void solve(idxT start)
     {
         _dist.assign(_size, _INF);
@@ -23,7 +30,7 @@ public:
         
         _dist[start] = 0;
         _prev[start] = -1;
-        pque.push(std::pair<wtT, idxT>{0, 0});
+        pque.push(std::pair<wtT, idxT>{0, start});
         while(!pque.empty())
         {
             auto [now_dist, now_idx] = pque.top();
@@ -32,7 +39,7 @@ public:
             if(_dist[now_idx] < now_dist)
                 continue;
             
-            for(const auto& [next_idx, next_wt] : _graph[now_idx])
+            for(auto& [next_idx, next_wt] : _graph[now_idx])
             {
                 if(_dist[now_idx] + next_wt < _dist[next_idx])
                 {
@@ -53,8 +60,11 @@ public:
 template <typename idxT, typename wtT>
 class Dijkstra
 {
+    //宣言 後にinit()で初期化
+    explicit Dijkstra(void);
     //頂点数、重み付きグラフ、無限大(十分大きい値)を指定して初期化
     explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>>& graph, wtT INF);
+    void init(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF);
     
     //頂点から各頂点までの最短経路長を求める
     void solve(idxT start);
