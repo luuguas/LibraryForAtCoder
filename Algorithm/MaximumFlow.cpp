@@ -1,5 +1,5 @@
 //最大流問題をFord-Fulkerson法で解くクラス
-//idxT: グラフの添字の型 capT: 辺の最大流量の型
+//idxT:  グラフの頂点番号の型 capT: 辺の最大流量の型
 #include <vector>
 #include <map>
 template <typename idxT, typename capT>
