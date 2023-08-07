@@ -74,7 +74,7 @@ public:
         _flowed.assign(_size, std::map<idxT, capT>{});
         for(idxT i = 0; i < _size; ++i)
         {
-            for(const auto& [j, cap] : _graph[i])
+            for(auto& [j, cap] : _graph[i])
             {
                 _flowed[j][i] = 0;
             }
@@ -97,7 +97,7 @@ public:
         if(idx == _goal)
             return _flow_total;
         capT flow = 0;
-        for(const auto& [to, cap] : _graph[idx])
+        for(auto& [to, cap] : _graph[idx])
         {
             flow += _flowed[to][idx];
         }
