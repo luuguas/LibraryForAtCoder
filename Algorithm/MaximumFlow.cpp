@@ -106,17 +106,19 @@ public:
             }
         }
         
-        _flow_total = 0;
         _goal = goal;
+        _flow_total = 0;
+        _cnt = 0;
+        _visited.assign(_size, -1);
         while(true)
         {
             bfs(start);
             if(_level[goal] == -1)
                 break;
-            _visited.assign(_size, -1);
-            for(_cnt = 0;; ++_cnt)
+            while(true)
             {
                 capT flow = dfs(start, _INF);
+                ++_cnt;
                 if(flow == 0)
                     break;
                 _flow_total += flow;
@@ -244,12 +246,14 @@ public:
             }
         }
         
-        _flow_total = 0;
         _goal = goal;
+        _flow_total = 0;
+        _cnt = 0;
         _visited.assign(_size, -1);
-        for(_cnt = 0;; ++_cnt)
+        while(true)
         {
             capT flow = dfs(start, _INF);
+            ++_cnt;
             if(flow == 0)
                 break;
             _flow_total += flow;
