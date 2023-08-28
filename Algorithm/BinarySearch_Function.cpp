@@ -8,7 +8,7 @@ template <typename T, typename... Info>
 T bsearch_int(bool (&func)(T, Info...), T ng, T ok, Info... info)
 {
     T mid;
-    while(abs(ok - ng) > 1)
+    while(ok - ng > 1 || ng - ok > 1)
     {
         mid = (ng + ok) / 2;
         if(func(mid, info...))
