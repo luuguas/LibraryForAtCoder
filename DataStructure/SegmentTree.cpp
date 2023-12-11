@@ -1,79 +1,93 @@
 //セグメント木
-//idxT: サイズの型 valT: 要素の値の型
+//idxT: 添字の型 valT: 要素の値の型
 #include <vector>
 template <typename idxT, typename valT>
 class SegmentTree
 {
 private:
-    idxT _size, _tree_size, _head;
-    std::vector<valT> _tree;
-    valT _ID;
-    valT (*_calc)(valT a, valT b);
+    idxT _size, _tree_size, _leaf_head;
+    std::vector<valT> _data;
     
-    void build(void)
-    {
-        for(idxT i = _head - 1; i >= 0; --i)
-        {
-            _tree[i] = _calc(_tree[2 * i + 1], _tree[2 * i + 2]);
-        }
-    }
-    idxT _l, _r;
-    valT query_inside(idxT L, idxT R, idxT now)
-    {
-        if(R <= _l || _r <= L)
-            return _ID;
-        else if(_l <= L && R <= _r)
-            return _tree[now];
-        else
-            return _calc(query_inside(L, (L + R) / 2, 2 * now + 1), query_inside((L + R) / 2, R, 2 * now + 2));
-    }
+    valT (*_op)(valT, valT);
+    valT _e;
     
-public:
-    explicit SegmentTree(void) {}
-    explicit SegmentTree(idxT size, valT ID, valT (*calc)(valT a, valT b)) {init(size, ID, calc);}
-    explicit SegmentTree(const std::vector<valT> &array, valT ID, valT (*calc)(valT a, valT b)) {init(array, ID, calc);}
-    void init(idxT size, valT ID, valT (*calc)(valT a, valT b))
+    void init_inside(idxT size, valT (*op)(valT, valT), valT e)
     {
         _size = size;
-        _ID = ID;
-        _calc = calc;
+        _op = op;
+        _e = e;
         
         _tree_size = 1;
         while(_tree_size < _size)
         {
             _tree_size *= 2;
         }
-        _head = _tree_size - 1;
+        _leaf_head = _tree_size - 1;
         _tree_size *= 2, _tree_size -= 1;
-        _tree.assign(_tree_size, _ID);
+        
+        _data.assign(_tree_size, e);
     }
-    void init(const std::vector<valT> &array, valT ID, valT (*calc)(valT a, valT b))
+    void build(void)
     {
-        init((idxT)array.size(), ID, calc);
+        for(idxT i = _leaf_head - 1; i >= 0; --i)
+        {
+            _data[i] = _op(_data[2 * i + 1], _data[2 * i + 2]);
+        }
+    }
+    
+    idxT _l, _r;
+    valT query_inside(idxT L, idxT R, idxT now)
+    {
+        if(R <= _l || _r <= L)
+            return _e;
+        else if(_l <= L && R <= _r)
+            return _data[now];
+        else
+            return _op(query_inside(L, (L + R) / 2, 2 * now + 1), query_inside((L + R) / 2, R, 2 * now + 2));
+    }
+    
+public:
+    explicit SegmentTree(void) {}
+    explicit SegmentTree(idxT size, valT val, valT (*op)(valT, valT), valT e) {init(size, val, op, e);}
+    explicit SegmentTree(const std::vector<valT>& array, valT (*op)(valT, valT), valT e) {init(array, op, e);}
+    void init(idxT size, valT val, valT (*op)(valT, valT), valT e)
+    {
+        init_inside(size, op, e);
         for(idxT i = 0; i < _size; ++i)
         {
-            _tree[_head + i] = array[i];
+            _data[_leaf_head + i] = val;
         }
         build();
     }
-    const valT& operator[](idxT idx) {return _tree[_head + idx];}
-    void update(idxT idx, valT val)
+    void init(const std::vector<valT>& array, valT (*op)(valT, valT), valT e)
     {
-        _tree[_head + idx] = val;
-        idx += _head;
+        init_inside((idxT)array.size(), op, e);
+        for(idxT i = 0; i < _size; ++i)
+        {
+            _data[_leaf_head + i] = array[i];
+        }
+        build();
+    }
+    
+    void update(idxT i, valT val)
+    {
+        idxT now = _leaf_head + i;
+        _data[now] = val;
         
         idxT parent;
-        while(idx > 0)
+        while(now > 0)
         {
-            parent = (idx - 1) / 2;
-            _tree[parent] = _calc(_tree[2 * parent + 1], _tree[2 * parent + 2]);
-            idx = parent;
+            parent = (now - 1) / 2;
+            _data[parent] = _op(_data[2 * parent + 1], _data[2 * parent + 2]);
+            now = parent;
         }
     }
+    
+    valT query(idxT i) {return _data[_leaf_head + i];}
     valT query(idxT l, idxT r)
     {
         _l = l, _r = r;
-        return query_inside(0, _tree_size - _head, 0);
+        return query_inside(0, _tree_size - _leaf_head, 0);
     }
 };
 
@@ -84,21 +98,79 @@ class SegmentTree
     //宣言 後にinit()で初期化
     explicit SegmentTree(void);
     
-    //単位元は任意のaについて calc(a, ID) = calc(ID, a) = a を満たす
-    //評価関数は結合法則 calc(calc(a, b), c) = calc(a, calc(b, c)) を満たす
+    //配列の長さ、初期値、評価関数、単位元を指定して初期化
+    explicit SegmentTree(idxT size, valT val, valT (*op)(valT, valT), valT e);
+    void init(idxT size, valT val, valT (*op)(valT, valT), valT e);
+    //配列、評価関数、単位元を指定して初期化
+    explicit SegmentTree(const std::vector<valT>& array, valT (*op)(valT, valT), valT e);
+    void init(const std::vector<valT>& array, valT (*op)(valT, valT), valT e);
     
-    //サイズ、単位元、評価関数を指定して初期化
-    explicit SegmentTree(idxT size, valT ID, valT (*calc)(valT a, valT b));
-    void init(idxT size, valT ID, valT (*calc)(valT a, valT b));
-    //要素の初期値を表す配列、単位元、評価関数を指定して初期化
-    explicit SegmentTree(const std::vector<valT> &array, valT ID, valT (*calc)(valT a, valT b));
-    void init(const std::vector<valT> &array, valT ID, valT (*calc)(valT a, valT b));
+    //!評価関数opは結合則 op(op(a, b), c) = op(a, op(b, c)) を満たす
+    //!単位元eは任意のaについて op(a, e) = op(e, a) = a を満たす
     
-    //idx番目の要素の値を返す(変更不可)
-    const valT& operator[](idxT idx);
-    //idx番目の要素をvalに更新する
-    void update(idxT idx, valT val);
-    //区間[l, r)に対するcalc関数の評価を返す
+    //i番目の要素をvalに更新する
+    void update(idxT i, valT val);
+    
+    //i番目の要素を返す
+    valT query(idxT i);
+    //区間[l, r)に対するopの評価 op(A[l], A[l + 1], ..., A[r - 1])) を返す
     valT query(idxT l, idxT r);
 };
 */
+
+/////
+
+//区間最小値を取得する場合(RMQ)
+using idxT = int;
+using valT = long long;
+valT op(valT a, valT b) {return std::min(a, b);}
+valT e = 1ll << 62;
+
+//区間和を取得する場合(RSQ)
+/*
+using idxT = int;
+using valT = long long;
+valT op(valT a, valT b) {return a + b;}
+valT e = 0;
+*/
+
+#include <iostream>
+using namespace std;
+int main(void)
+{
+    int N;
+    cout << "Input the length of array: ";
+    cin >> N;
+    
+    SegmentTree<idxT, valT> seg(N, 0, op, e);
+    
+    int a, b;
+    long long c;
+    while(true)
+    {
+        cout << "command?(1:update / 2:query / 9:end program): ";
+        do
+        {
+            cin >> a;
+        }while(a != 1 && a != 2 && a != 9);
+        
+        switch(a)
+        {
+        case 1:
+            cout << "Input index and new value: ";
+            cin >> a >> c;
+            seg.update(a, c);
+            cout << "Updated A[" << a << "] with " << c <<"\n\n";
+            break;
+            
+        case 2:
+            cout << "Input l, r (range: [l, r)): ";
+            cin >> a >> b;
+            cout << "Minimum of A[" << a << ", " << b << ") is " << seg.query(a, b) << "\n\n";
+            break;
+            
+        case 9:
+            return 0;
+        }
+    }
+}
