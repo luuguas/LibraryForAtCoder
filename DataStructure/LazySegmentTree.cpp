@@ -1,4 +1,4 @@
-//遅延セグメント木
+//遅延評価セグメント木
 //idxT: 添字の型 valT: 要素の値の型 updT: 更新情報の型
 #include <vector>
 template <typename idxT, typename valT, typename updT>
