@@ -141,7 +141,7 @@ class LazySegmentTree
     //!更新関数mapping(a, f): aを更新情報fをもとに更新した結果を返す関数 / 分配法則 mapping(op(a, b), f) = op(mapping(a, f), mapping(b, f)) を満たす
     //!更新合成関数composition(f, g): ある値をfをもとに更新しさらにgをもとに更新する操作と等しい操作を表す更新情報を返す関数
     // すなわち、任意のaについて mapping(mapping(a, f), g) = mapping(a, composition(f, g)) を満たす
-    //!恒等更新情報id: ある値をidで更新した結果が元の値と等しくなる更新情報
+    //!恒等更新情報id: ある値をidをもとに更新した結果が元の値と等しいような更新情報
     // すなわち、任意のaについて mapping(a, id) = a を満たす
     
     //i番目の要素を更新情報fをもとに更新する
