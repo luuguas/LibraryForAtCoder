@@ -13,9 +13,7 @@ private:
     
     void init_inside(idxT size, valT (*op)(valT, valT), valT e)
     {
-        _size = size;
-        _op = op;
-        _e = e;
+        _size = size, _op = op, _e = e;
         
         _tree_size = 1;
         while(_tree_size < _size)
@@ -94,21 +92,22 @@ public:
 };
 
 /*
+//idxT: 添字の型 valT: 要素の値の型
 template <typename idxT, typename valT>
 class SegmentTree
 {
     //宣言 後にinit()で初期化
     explicit SegmentTree(void);
     
-    //配列の長さ、初期値、評価関数、単位元を指定して初期化
+    //要素数、初期値、評価関数、単位元を指定して初期化
     explicit SegmentTree(idxT size, valT val, valT (*op)(valT, valT), valT e);
     void init(idxT size, valT val, valT (*op)(valT, valT), valT e);
     //配列、評価関数、単位元を指定して初期化
     explicit SegmentTree(const std::vector<valT>& array, valT (*op)(valT, valT), valT e);
     void init(const std::vector<valT>& array, valT (*op)(valT, valT), valT e);
     
-    //!評価関数opは結合則 op(op(a, b), c) = op(a, op(b, c)) を満たす
-    //!単位元eは任意のaについて op(a, e) = op(e, a) = a を満たす
+    //!評価関数op(a, b): queryに使用する関数 / 結合法則 op(op(a, b), c) = op(a, op(b, c)) を満たす
+    //!単位元e: 任意のaについて op(a, e) = op(e, a) = a を満たす値
     
     //i番目の要素をvalに更新する
     void update(idxT i, valT val);
@@ -127,6 +126,14 @@ using idxT = int;
 using valT = long long;
 valT op(valT a, valT b) {return std::min(a, b);}
 valT e = 1ll << 62;
+
+//区間最大値を取得する場合(RMQ)
+/*
+using idxT = int;
+using valT = long long;
+valT op(valT a, valT b) {return std::max(a, b);}
+valT e = -1ll << 62;
+*/
 
 //区間和を取得する場合(RSQ)
 /*
@@ -166,7 +173,7 @@ int main(void)
             break;
             
         case 2:
-            cout << "Input l, r (range: [l, r)): ";
+            cout << "Input range[l, r): ";
             cin >> a >> b;
             cout << "Minimum of A[" << a << ", " << b << ") is " << seg.query(a, b) << "\n\n";
             break;
