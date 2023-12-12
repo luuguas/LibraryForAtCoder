@@ -53,6 +53,8 @@ public:
     void init(idxT size, valT val, valT (*op)(valT, valT), valT e)
     {
         init_inside(size, op, e);
+        if(val == e)
+            return;
         for(idxT i = 0; i < _size; ++i)
         {
             _data[_leaf_head + i] = val;
