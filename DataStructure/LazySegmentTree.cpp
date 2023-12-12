@@ -204,7 +204,7 @@ valT mapping(valT a, updT f) {return a + f;}
 updT composition(updT f, updT g) {return f + g;}
 */
 
-//区間更新・区間和取得の場合
+//区間変更・区間和取得の場合
 /*
 using idxT = int;
 struct valT
