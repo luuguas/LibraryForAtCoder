@@ -114,7 +114,7 @@ class SegmentTree
     
     //i番目の要素を返す
     valT query(idxT i);
-    //区間[l, r)に対するopの評価 op(A[l], A[l + 1], ..., A[r - 1])) を返す
+    //区間[l, r)に対するopの評価 op(A[l], A[l + 1], ..., A[r - 1]) を返す
     valT query(idxT l, idxT r);
 };
 */
