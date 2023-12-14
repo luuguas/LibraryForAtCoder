@@ -58,7 +58,7 @@ long long mod_pow(long long a, long long p, long long MOD)
 //T: 値の型
 #include <vector>
 template <typename T>
-class nCr_mod
+class ncr_mod
 {
 private:
     T _max, _MOD;
@@ -89,7 +89,7 @@ public:
 
 /*
 template <typename T>
-class nCr_mod
+class ncr_mod
 {
     //n, rの最大値、法を指定して初期化
     //!法MODは素数
