@@ -17,9 +17,11 @@ long long mod_sub(long long a, long long b, long long MOD)
 long long mod_mul(long long a, long long b, long long MOD) {return (a * b) % MOD;}
 
 //1 / a (a, MODは互いに素)
-long long mod_inv(long long a, long long MOD) {
+long long mod_inv(long long a, long long MOD)
+{
     long long b = MOD, c = 1, d = 0, g;
-    while (b != 0) {
+    while (b != 0)
+    {
         g = c - a / b * d, c = d, d = g;
         g = a % b, a = b, b = g;
     }
@@ -27,15 +29,16 @@ long long mod_inv(long long a, long long MOD) {
 }
 
 //a / b (b, MODは互いに素)
-long long mod_inv(long long a, long long b, long long MOD) {
-    long long aa = a;
-    long long a = b, b = MOD, c = 1, d = 0, g;
-    while (b != 0) {
-        g = c - a / b * d, c = d, d = g;
-        g = a % b, a = b, b = g;
+long long mod_div(long long a, long long b, long long MOD)
+{
+    long long aa = b, bb = MOD, c = 1, d = 0, g;
+    while (bb != 0)
+    {
+        g = c - aa / bb * d, c = d, d = g;
+        g = aa % bb, aa = bb, bb = g;
     }
     c += MOD, c %= MOD;
-    return aa * c % MOD;
+    return a * c % MOD;
 }
 
 //a ^ p (0 <= p)
