@@ -50,7 +50,7 @@ long long mod_pow(long long a, long long p, long long MOD)
     while (pow > 0)
     {
         if (pow % 2 == 1)
-            a_b *= a_2n, a_p %= MOD;
+            a_p *= a_2n, a_p %= MOD;
         a_2n *= a_2n, a_2n %= MOD;
         pow /= 2;
     }
