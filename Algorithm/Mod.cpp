@@ -102,3 +102,17 @@ class ncr_mod
     T operator()(T n, T r);
 };
 */
+
+//法MODにおける組み合わせの総数nCrを求める関数
+//nの値が非常に大きく、全ての計算に対するrの総和が小さいときに使用
+//mod_inv関数が必要
+long long ncr_mod(long long n, long long r, long long MOD) {
+    long long a = 1;
+    for (long long i = 0; i < r; ++i) {
+        a *= (n - r + i + 1) % MOD;
+        a %= MOD;
+        a *= mod_inv(i + 1, MOD);
+        a %= MOD;
+    }
+    return a;
+}
