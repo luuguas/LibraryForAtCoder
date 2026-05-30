@@ -1,6 +1,6 @@
 // 自然数nが素数かをtrue/falseで返す
 template <typename T>
-bool isPrime(T n) {
+bool is_prime(T n) {
     if (n <= 1) return false;
 
     for (T d = 2; d * d <= n; ++d) {
@@ -21,17 +21,17 @@ std::vector<T> primes(T n) {
 
     if (n > 100) { ps.reserve((T)(n / std::log(n))); }
 
-    bool isPrime;
+    bool is_prime;
     for (T i = 2; i <= n; ++i) {
-        isPrime = true;
+        is_prime = true;
         for (T &p : ps) {
             if (i % p == 0) {
-                isPrime = false;
+                is_prime = false;
                 break;
             }
             if (p * p > i) { break; }
         }
-        if (isPrime) {
+        if (is_prime) {
             ps.push_back(i);
         }
     }

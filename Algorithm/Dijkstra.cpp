@@ -26,11 +26,12 @@ public:
     {
         _dist.assign(_size, _INF);
         _prev.assign(_size, -2);
-        std::priority_queue<std::pair<wtT, idxT>, std::vector<std::pair<wtT, idxT>>, std::greater<std::pair<wtT, idxT>>> pque;
-        
+        using pque_element = std::pair<wtT, idxT>;
+        std::priority_queue<pque_element, std::vector<pque_element>, std::greater<pque_element>> pque;
+
         _dist[start] = 0;
         _prev[start] = -1;
-        pque.push(std::pair<wtT, idxT>{0, start});
+        pque.push(pque_element{0, start});
         while(!pque.empty())
         {
             auto [now_dist, now_idx] = pque.top();
@@ -45,7 +46,7 @@ public:
                 {
                     _dist[next_idx] = _dist[now_idx] + next_wt;
                     _prev[next_idx] = now_idx;
-                    pque.push(std::pair<wtT, idxT>{_dist[next_idx], next_idx});
+                    pque.push(pque_element{_dist[next_idx], next_idx});
                 }
             }
         }
