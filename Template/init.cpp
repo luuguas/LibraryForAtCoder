@@ -20,11 +20,12 @@ bool chmin(T& var, const T& upd) { if (upd < var) { var = upd; return true; } re
 template <typename T>
 bool chmax(T& var, const T& upd) { if (var < upd) { var = upd; return true; } return false; }
 
-static const vector<vector<int>> _adj = {{-1, 0}, {0, -1}, {0, 1}, {1, 0}, {-1, -1}, {-1, 1}, {1, -1}, {1, 1}};
+static const vector<vector<int>> _adj = {{0, 1}, {-1, 0}, {0, -1}, {1, 0}, {-1, 1}, {-1, -1}, {1, -1}, {1, 1}};
 #define skip_grid(i, j, h, w) if (i < 0 || h <= i || j < 0 || w <= j) continue
 
 using ll = long long;
 static const long long MOD = 998244353ll, MOD2 = 1000000007ll;
+static const long long INF_INT = 1ll << 30, INF_LL = 1ll << 62;
 static const std::string _n = "\n", _s = " ";
 #define re0 return 0
 
