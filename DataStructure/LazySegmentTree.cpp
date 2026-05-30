@@ -8,17 +8,17 @@ private:
     idxT _size, _tree_size, _leaf_head;
     std::vector<valT> _data;
     std::vector<updT> _lazy;
-    
+
     valT (*_op)(valT, valT);
     valT _e;
     valT (*_mapping)(valT, updT);
     updT (*_composition)(updT, updT);
     updT _id;
-    
+
     void init_inside(idxT size, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id)
     {
         _size = size, _op = op, _e = e, _mapping = mapping, _composition = composition, _id = id;
-        
+
         _tree_size = 1;
         while(_tree_size < _size)
         {
@@ -26,7 +26,7 @@ private:
         }
         _leaf_head = _tree_size - 1;
         _tree_size *= 2, _tree_size -= 1;
-        
+
         _data.assign(_tree_size, e);
         _lazy.assign(_tree_size, id);
     }
@@ -37,7 +37,7 @@ private:
             _data[i] = _op(_data[2 * i + 1], _data[2 * i + 2]);
         }
     }
-    
+
     void eval(idxT now)
     {
         if(_lazy[now] == _id)
@@ -50,7 +50,7 @@ private:
         }
         _lazy[now] = _id;
     }
-    
+
     idxT _l, _r;
     void update_inside(idxT L, idxT R, idxT now, updT f)
     {
@@ -69,7 +69,7 @@ private:
             _data[now] = _op(_data[2 * now + 1], _data[2 * now + 2]);
         }
     }
-    
+
     valT query_inside(idxT L, idxT R, idxT now)
     {
         eval(now);
@@ -80,7 +80,7 @@ private:
         else
             return _op(query_inside(L, (L + R) / 2, 2 * now + 1), query_inside((L + R) / 2, R, 2 * now + 2));
     }
-    
+
 public:
     explicit LazySegmentTree(void) {}
     explicit LazySegmentTree(idxT size, valT val, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id) {init(size, val, op, e, mapping, composition, id);}
@@ -105,14 +105,14 @@ public:
         }
         build();
     }
-    
+
     void update(idxT i, updT f) {update(i, i + 1, f);}
     void update(idxT l, idxT r, updT f)
     {
         _l = l, _r = r;
         update_inside(0, _tree_size - _leaf_head, 0, f);
     }
-    
+
     valT query(idxT i) {return query(i, i + 1);}
     valT query(idxT l, idxT r)
     {
@@ -128,14 +128,14 @@ class LazySegmentTree
 {
     //宣言 後にinit()で初期化
     explicit LazySegmentTree(void);
-    
+
     //要素数、初期値、評価関数、単位元、更新関数、更新合成関数、恒等更新情報 を指定して初期化
     explicit LazySegmentTree(idxT size, valT val, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id);
     void init(idxT size, valT val, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id);
     //配列、評価関数、単位元、更新関数、更新合成関数、恒等更新情報 を指定して初期化
     explicit LazySegmentTree(const std::vector<valT>& array, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id);
     void init(const std::vector<valT>& array, valT (*op)(valT, valT), valT e, valT (*mapping)(valT, updT), updT (*composition)(updT, updT), updT id);
-    
+
     //!評価関数op(a, b): queryに使用する関数 / 結合法則 op(op(a, b), c) = op(a, op(b, c)) を満たす
     //!単位元e: 任意のaについて op(a, e) = op(e, a) = a を満たす値
     //!更新関数mapping(a, f): aを更新情報fをもとに更新した結果を返す関数 / 分配法則 mapping(op(a, b), f) = op(mapping(a, f), mapping(b, f)) を満たす
@@ -143,12 +143,12 @@ class LazySegmentTree
     // すなわち、任意のaについて mapping(mapping(a, f), g) = mapping(a, composition(f, g)) を満たす
     //!恒等更新情報id: ある値をidをもとに更新した結果が元の値と等しいような更新情報
     // すなわち、任意のaについて mapping(a, id) = a を満たす
-    
+
     //i番目の要素を更新情報fをもとに更新する
     void update(idxT i, updT f);
     //区間[l, r)の全ての要素 A[l], A[l + 1], ..., A[r - 1] を更新情報fをもとに更新する
     void update(idxT l, idxT r, updT f);
-    
+
     //i番目の要素を返す
     valT query(idxT i);
     //区間[l, r)に対するopの評価 op(A[l], A[l + 1], ..., A[r - 1]) を返す
@@ -245,9 +245,9 @@ int main(void)
     int N;
     cout << "Input the length of array: ";
     cin >> N;
-    
+
     LazySegmentTree<idxT, valT, updT> seg(N, 0, op, e, mapping, composition, id);
-    
+
     int a, b;
     long long c;
     while(true)
@@ -257,7 +257,7 @@ int main(void)
         {
             cin >> a;
         }while(a != 1 && a != 2 && a != 9);
-        
+
         switch(a)
         {
         case 1:
@@ -266,13 +266,13 @@ int main(void)
             seg.update(a, b, c);
             cout << "Updated A[" << a << ", " << b << ") with " << c <<"\n\n";
             break;
-            
+
         case 2:
             cout << "Input range[l, r): ";
             cin >> a >> b;
             cout << "Minimum of A[" << a << ", " << b << ") is " << seg.query(a, b) << "\n\n";
             break;
-            
+
         case 9:
             return 0;
         }

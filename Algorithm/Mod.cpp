@@ -81,7 +81,7 @@ public:
         }
         return;
     };
-    
+
     T operator()(T n, T r)
     {
         if (_max < n || n < r)
@@ -97,7 +97,7 @@ class ncr_mod
     //n, rの最大値、法を指定して初期化
     //!法MODは素数
     explicit ncr_mod(T max, T MOD);
-    
+
     //n個からr個を重複なく選ぶ組み合わせの総数nCrをMODで割ったあまりを返す
     T operator()(T n, T r);
 };

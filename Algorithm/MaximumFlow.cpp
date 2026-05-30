@@ -13,7 +13,7 @@ private:
     std::vector<std::map<idxT, capT>> _rest, _flowed;
     std::vector<idxT> _visited;
     std::vector<idxT> _level;
-    
+
     idxT _goal, _cnt;
     capT _flow_total;
     capT min(const capT& a, const capT& b)
@@ -54,7 +54,7 @@ private:
     {
         if(now == _goal)
             return flow;
-        
+
         _visited[now] = _cnt;
         for(auto& [next, cap] : _rest[now])
         {
@@ -84,7 +84,7 @@ private:
         }
         return 0;
     }
-    
+
 public:
     explicit MaximumFlow(void) {}
     explicit MaximumFlow(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF) {init(size, graph, INF);}
@@ -105,7 +105,7 @@ public:
                 _flowed[j][i] = 0;
             }
         }
-        
+
         _goal = goal;
         _flow_total = 0;
         _cnt = 0;
@@ -154,10 +154,10 @@ class MaximumFlow
     //頂点数、最大流量を重みにもつ有向グラフ、無限大(十分大きい値)を指定して初期化
     explicit MaximumFlow(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
     void init(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
-    
+
     //頂点startから頂点goalに向けてフローを流したときの最大流量を求める
     void solve(idxT start, idxT goal);
-    
+
     //!以下の関数はsolve()実行後に使用
     //頂点goalに流れ込む最大流量を返す
     capT flow_total(void);
@@ -181,7 +181,7 @@ private:
     capT _INF;
     std::vector<std::map<idxT, capT>> _rest, _flowed;
     std::vector<idxT> _visited;
-    
+
     idxT _goal, _cnt;
     capT _flow_total;
     capT min(const capT& a, const capT& b)
@@ -194,7 +194,7 @@ private:
     {
         if(now == _goal)
             return flow;
-        
+
         _visited[now] = _cnt;
         for(auto& [next, cap] : _rest[now])
         {
@@ -224,7 +224,7 @@ private:
         }
         return 0;
     }
-    
+
 public:
     explicit MaximumFlow_Ford(void) {}
     explicit MaximumFlow_Ford(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF) {init(size, graph, INF);}
@@ -245,7 +245,7 @@ public:
                 _flowed[j][i] = 0;
             }
         }
-        
+
         _goal = goal;
         _flow_total = 0;
         _cnt = 0;
@@ -288,10 +288,10 @@ class MaximumFlow_Ford
     //頂点数、最大流量を重みにもつ有向グラフ、無限大(十分大きい値)を指定して初期化
     explicit MaximumFlow_Ford(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
     void init(idxT size, const std::vector<std::map<idxT, capT>>& graph, capT INF);
-    
+
     //頂点startから頂点goalに向けてフローを流したときの最大流量を求める
     void solve(idxT start, idxT goal);
-    
+
     //!以下の関数はsolve()実行後に使用
     //頂点goalに流れ込む最大流量を返す
     capT flow_total(void);

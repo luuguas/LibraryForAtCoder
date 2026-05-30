@@ -67,7 +67,7 @@ int main(void)
         cin >> key;
         if(key < 0)
             return 0;
-        
+
         int ret = bsearch_int(func, -1, 1000, key);
         cout << "f(" << ret - 1 << ")=" << f(ret - 1) << ", f(" << ret << ")=" << f(ret) << "\n";
     }

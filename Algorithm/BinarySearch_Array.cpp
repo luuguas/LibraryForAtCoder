@@ -69,7 +69,7 @@ int main(void)
         cout << a[i] << ", ";
     }
     cout << "}\n\n";
-    
+
     cout << "bsearch / geqmin / leqmax\n";
     for(int key = 0; key <= 50; ++key)
     {

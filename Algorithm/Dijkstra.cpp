@@ -12,7 +12,7 @@ private:
     wtT _INF;
     std::vector<wtT> _dist;
     std::vector<idxT> _prev;
-    
+
 public:
     explicit Dijkstra(void) {}
     explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF) {init(size, graph, INF);}
@@ -36,10 +36,10 @@ public:
         {
             auto [now_dist, now_idx] = pque.top();
             pque.pop();
-            
+
             if(_dist[now_idx] < now_dist)
                 continue;
-            
+
             for(auto& [next_idx, next_wt] : _graph[now_idx])
             {
                 if(_dist[now_idx] + next_wt < _dist[next_idx])
@@ -66,10 +66,10 @@ class Dijkstra
     //頂点数、重み付きグラフ、無限大(十分大きい値)を指定して初期化
     explicit Dijkstra(idxT size, const std::vector<std::map<idxT, wtT>>>& graph, wtT INF);
     void init(idxT size, const std::vector<std::map<idxT, wtT>>& graph, wtT INF);
-    
+
     //頂点から各頂点までの最短経路長を求める
     void solve(idxT start);
-    
+
     //!以下の関数はsolve()実行後に使用
     //頂点start-idx間の最短経路長を返す 経路が存在しない場合はINFを返す
     wtT dist(idxT idx);

@@ -8,11 +8,11 @@ private:
     idxT _size;
     idxT _tail;
     std::vector<valT> _tree;
-    
+
     idxT parent(idxT index) {return (index - 1) / 2;}
     idxT left(idxT index) {return 2 * index + 1;}
     idxT right(idxT index) {return 2 * index + 2;}
-    
+
     void up_heap(idxT index)
     {
         valT value = _tree[index];
@@ -35,7 +35,7 @@ private:
                     larger = right(index);
                 else
                     larger = left(index);
-                
+
                 if(value < _tree[larger])
                 {
                     _tree[index] = _tree[larger];
@@ -49,7 +49,7 @@ private:
         }
         _tree[index] = value;
     }
-    
+
 public:
     explicit PriorityQueue(idxT size = 0) {init(size);}
     void init(idxT size = 0)
@@ -58,7 +58,7 @@ public:
         _tail = 0;
         _tree.assign(size, valT{});
     }
-    
+
     void push(valT value)
     {
         if(_tail == _size)
@@ -82,7 +82,7 @@ public:
         return value;
     }
     valT top(void) {return _tree[0];}
-    
+
     bool empty(void) {return _tail == 0;}
     idxT size(void) {return _tail;}
 };
@@ -94,14 +94,14 @@ class PriorityQueue
     //サイズを指定して初期化(不足分は適宜補充される)
     PriorityQueue(idxT size = 0);
     void init(idxT size = 0);
-    
+
     //データを挿入
     void push(valT value);
     //最も優先度の高いデータを取り出して返す
     valT pop(void);
     //最も優先度の高いデータを返す
     valT top(void);
-    
+
     //キューが空ならtrueを返す
     bool empty(void);
     //キューに挿入されているデータの個数を返す
@@ -116,7 +116,7 @@ using namespace std;
 int main(void)
 {
     PriorityQueue<int, int> pq(10);
-    
+
     int input;
     while(true)
     {
@@ -125,7 +125,7 @@ int main(void)
         {
             cin >> input;
         } while(input != 1 && input != 2 && input != 3 && input != 4 && input != 9);
-        
+
         switch(input)
         {
         case 1:
@@ -134,7 +134,7 @@ int main(void)
             pq.push(input);
             cout << "pushed " << input << "\n\n";
             break;
-            
+
         case 2:
             if(pq.empty())
             {
@@ -143,7 +143,7 @@ int main(void)
             }
             cout << "popped " << pq.pop() << "\n\n";
             break;
-            
+
         case 3:
             if(pq.empty())
             {
@@ -152,11 +152,11 @@ int main(void)
             }
             cout << "top value is " << pq.top() << "\n\n";
             break;
-            
+
         case 4:
             cout << "size of priority queue is " << pq.size() << "\n\n";
             break;
-            
+
         case 9:
             return 0;
         }

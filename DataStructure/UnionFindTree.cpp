@@ -7,7 +7,7 @@ class UnionFind
 private:
     idxT _group_count;
     std::vector<idxT> _parent, _size;
-    
+
 public:
     explicit UnionFind(void) {}
     explicit UnionFind(idxT size) {init(size);}
@@ -25,13 +25,13 @@ public:
         else
             return _parent[node] = root(_parent[node]);
     }
-    
+
     void unite(idxT node1, idxT node2)
     {
         idxT root1 = root(node1), root2 = root(node2);
         if(root1 == root2)
             return;
-        
+
         if(_size[root1] < _size[root2])
         {
             _parent[root1] = root2;
@@ -45,7 +45,7 @@ public:
         --_group_count;
     }
     bool same(idxT node1, idxT node2) {return root(node1) == root(node2);}
-    
+
     idxT size(idxT node) {return _size[root(node)];}
     idxT group_count(void) {return _group_count;}
 };
@@ -62,12 +62,12 @@ class UnionFind
 
     //nodeを含む集合の根を返す&経路圧縮
     idxT root(idxT node);
-    
+
     //node1を含む集合とnode2を含む集合を併合する
     void unite(idxT node1, idxT node2);
     //node1とnode2が同じ集合に属しているならtrueを返す
     bool same(idxT node1, idxT node2);
-    
+
     //nodeを含む集合の要素数を返す
     idxT size(idxT node);
     //集合の個数を返す
@@ -83,7 +83,7 @@ using namespace std;
 int main(void)
 {
     UnionFind uf(10);
-    
+
     int a, b;
     while(true)
     {
@@ -105,13 +105,13 @@ int main(void)
             cout << "\b\b}, ";
         }
         cout << "\b\b\n";
-        
+
         cout << "command?(1:unite / 2:same / 3:size / 4:group_count / 9:end program): ";
         do
         {
             cin >> a;
         } while(a != 1 && a != 2 && a != 3 && a != 4 && a != 9);
-        
+
         switch(a)
         {
         case 1:
@@ -120,7 +120,7 @@ int main(void)
             uf.unite(a, b);
             cout << "united " << a << " and " << b <<"\n\n";
             break;
-            
+
         case 2:
             cout << "choose two nodes: ";
             cin >> a >> b;
@@ -129,17 +129,17 @@ int main(void)
                 cout << "not ";
             cout << "the same group\n\n";
             break;
-            
+
         case 3:
             cout << "choose a node: ";
             cin >> a;
             cout << "size of group including " << a << " is " << uf.size(a) << "\n\n";
             break;
-            
+
         case 4:
             cout << "number of groups is " << uf.group_count() << "\n\n";
             break;
-            
+
         case 9:
             return 0;
         }
