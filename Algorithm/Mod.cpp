@@ -1,22 +1,22 @@
-//法MODにおける四則演算・累乗・組み合わせnCrを求める関数たち
-//!引数a, bは 0 <= a < MOD, 0 <= b < MOD を満たす
+// 法MODにおける四則演算・累乗・組み合わせnCrを求める関数たち
+// !引数a, bは 0 <= a < MOD, 0 <= b < MOD を満たす
 
-//a + b
-long long mod_add(long long a, long long b, long long MOD) {return (a + b) % MOD;}
+// a + b
+long long mod_add(long long a, long long b, long long MOD) { return (a + b) % MOD; }
 
-//a - b
+// a - b
 long long mod_sub(long long a, long long b, long long MOD)
 {
     a = (a - b) % MOD;
-    if(a < 0)
+    if (a < 0)
         a += MOD;
     return a;
 }
 
-//a * b
-long long mod_mul(long long a, long long b, long long MOD) {return (a * b) % MOD;}
+// a * b
+long long mod_mul(long long a, long long b, long long MOD) { return (a * b) % MOD; }
 
-//1 / a (a, MODは互いに素)
+// 1 / a (a, MODは互いに素)
 long long mod_inv(long long a, long long MOD)
 {
     long long b = MOD, c = 1, d = 0, g;
@@ -28,7 +28,7 @@ long long mod_inv(long long a, long long MOD)
     return (c + MOD) % MOD;
 }
 
-//a / b (b, MODは互いに素)
+// a / b (b, MODは互いに素)
 long long mod_div(long long a, long long b, long long MOD)
 {
     long long aa = b, bb = MOD, c = 1, d = 0, g;
@@ -41,7 +41,7 @@ long long mod_div(long long a, long long b, long long MOD)
     return a * c % MOD;
 }
 
-//a ^ p (0 <= p)
+// a ^ p (0 <= p)
 long long mod_pow(long long a, long long p, long long MOD)
 {
     if (a == 0)
@@ -57,8 +57,8 @@ long long mod_pow(long long a, long long p, long long MOD)
     return a_p;
 }
 
-//法MODにおける組み合わせの総数nCrを求めるクラス
-//T: 値の型
+// 法MODにおける組み合わせの総数nCrを求めるクラス
+// T: 値の型
 #include <vector>
 template <typename T>
 class ncr_mod
@@ -94,21 +94,23 @@ public:
 template <typename T>
 class ncr_mod
 {
-    //n, rの最大値、法を指定して初期化
-    //!法MODは素数
+    // n, rの最大値、法を指定して初期化
+    // !法MODは素数
     explicit ncr_mod(T max, T MOD);
 
-    //n個からr個を重複なく選ぶ組み合わせの総数nCrをMODで割ったあまりを返す
+    // n個からr個を重複なく選ぶ組み合わせの総数nCrをMODで割ったあまりを返す
     T operator()(T n, T r);
 };
 */
 
-//法MODにおける組み合わせの総数nCrを求める関数
-//nの値が非常に大きく、全ての計算に対するrの総和が小さいときに使用
-//mod_inv関数が必要
-long long ncr_mod(long long n, long long r, long long MOD) {
+// 法MODにおける組み合わせの総数nCrを求める関数
+// nの値が非常に大きく、全ての計算に対するrの総和が小さいときに使用
+// mod_inv関数が必要
+long long ncr_mod(long long n, long long r, long long MOD)
+{
     long long a = 1;
-    for (long long i = 0; i < r; ++i) {
+    for (long long i = 0; i < r; ++i)
+    {
         a *= (n - r + i + 1) % MOD;
         a %= MOD;
         a *= mod_inv(i + 1, MOD);

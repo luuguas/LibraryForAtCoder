@@ -1,17 +1,17 @@
-//ng<okのとき func(x)はng<x<aのときfalse、a<=x<okのときtrueを返す関数
-//ok<ngのとき func(x)はok<x<=aのときtrue、a<x<ngのときfalseを返す関数
-//二分探索してaの値を返す
+// ng<okのとき func(x)はng<x<aのときfalse、a<=x<okのときtrueを返す関数
+// ok<ngのとき func(x)はok<x<=aのときtrue、a<x<ngのときfalseを返す関数
+// 二分探索してaの値を返す
 //
-//x,a,ng,ok はすべて整数型
-//info... は関数funcの第2引数以降に追加で渡す情報(無くてもよい)
+// x,a,ng,ok はすべて整数型
+// info... は関数funcの第2引数以降に追加で渡す情報(無くてもよい)
 template <typename T, typename... Info>
 T bsearch_int(bool (&func)(T, Info...), T ng, T ok, Info... info)
 {
     T mid;
-    while(ok - ng > 1 || ng - ok > 1)
+    while (ok - ng > 1 || ng - ok > 1)
     {
         mid = (ng + ok) / 2;
-        if(func(mid, info...))
+        if (func(mid, info...))
             ok = mid;
         else
             ng = mid;
@@ -19,19 +19,19 @@ T bsearch_int(bool (&func)(T, Info...), T ng, T ok, Info... info)
     return ok;
 }
 
-//関数funcの条件はbsearch_intと同様
-//count回二分探索してaの近似値を返す(countが増えるほど誤差は減少 double型なら50回以上が適切)
+// 関数funcの条件はbsearch_intと同様
+// count回二分探索してaの近似値を返す(countが増えるほど誤差は減少 double型なら50回以上が適切)
 //
-//x,a,ng,ok はすべて小数型
-//info... は関数funcの第2引数以降に追加で渡す情報(無くてもよい)
+// x,a,ng,ok はすべて小数型
+// info... は関数funcの第2引数以降に追加で渡す情報(無くてもよい)
 template <typename T, typename... Info>
 T bsearch_double(bool (&func)(T, Info...), T ng, T ok, unsigned count, Info... info)
 {
     T mid;
-    while(count > 0)
+    while (count > 0)
     {
         mid = (ng + ok) / 2;
-        if(func(mid, info...))
+        if (func(mid, info...))
             ok = mid;
         else
             ng = mid;
@@ -52,7 +52,7 @@ int f(int x)
 
 bool func(int x, int key)
 {
-    if(key <= f(x))
+    if (key <= f(x))
         return true;
     else
         return false;
@@ -62,10 +62,10 @@ int main(void)
 {
     cout << "f(x) = floor(x/11) + 2*floor(x/13) + 3*floor(x/17) + 4*floor(x/23);\n";
     int key;
-    while(true)
+    while (true)
     {
         cin >> key;
-        if(key < 0)
+        if (key < 0)
             return 0;
 
         int ret = bsearch_int(func, -1, 1000, key);
