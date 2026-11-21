@@ -11,9 +11,9 @@ using namespace std;
 #define all(array) std::begin(array), std::end(array)
 #define rall(array) std::rbegin(array), std::rend(array)
 
-#define Yes(cond, ...) if (cond) { std::cout << "Yes\n"; __VA_ARGS__; }
-#define No(cond, ...) if (cond) { std::cout << "No\n"; __VA_ARGS__; }
-#define YesNo(cond) std::cout << (cond ? "Yes\n" : "No\n")
+void Yes(void) { std::cout << "Yes\n"; }
+void No(void) { std::cout << "No\n"; }
+bool YesNo(bool cond) { std::cout << (cond ? "Yes\n" : "No\n"); return cond; }
 
 template <typename T>
 bool chmin(T& var, const T& upd) { if (upd < var) { var = upd; return true; } return false; }
